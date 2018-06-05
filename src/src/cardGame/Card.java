@@ -24,19 +24,22 @@ public final class Card {
 	private final String suit;
 
 	/**
+	 * The possible face values of the card.
+	 */
+	private static final String[] faceValues = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
+
+	/**
 	 * Constructs a new <code>Card</code>.
 	 *
-	 * @param faceValue
-	 *        The face value of this card.
 	 * @param value
 	 *        The value of this card.
 	 * @param suit
 	 *        The suit of this card.
 	 */
-	public Card(String faceValue, int value, String suit) {
-		this.faceValue = faceValue;
+	public Card(int value, String suit) {
 		this.value = value;
 		this.suit = suit;
+		this.faceValue = faceValues[value - 1];
 	}
 
 	/**
