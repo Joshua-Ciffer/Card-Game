@@ -1,7 +1,6 @@
 package src.cardGame;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class represents a deck that contains 52 <code>Card</code> objects.
@@ -50,10 +49,9 @@ public final class Deck {
 	 */
 	public void shuffle() {
 		ArrayList<Card> shuffledDeck = new ArrayList<>();
-		Random random = new Random();
 		int index;
 		while (deck.size() > 0) {
-			index = random.nextInt(deck.size());
+			index = (int)(Math.random() * deck.size());
 			shuffledDeck.add(deck.remove(index));
 		}
 		deck = shuffledDeck;
