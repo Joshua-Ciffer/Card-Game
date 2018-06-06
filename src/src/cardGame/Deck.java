@@ -26,7 +26,7 @@ public final class Deck {
 	 */
 	public void create() {
 		deck = new ArrayList<>();
-		for (int suit = 0; suit < 3; suit++) {
+		for (int suit = 0; suit <= 3; suit++) {
 			for (int value = 1; value <= 13; value++) {
 				switch (suit) {
 					case 0: {	// Hearts.
@@ -66,7 +66,7 @@ public final class Deck {
 	public String toString() {
 		String temp = "";
 		for (Card card : deck) {
-			temp = card.toString() + "\n";
+			temp += card.toString() + "\n";
 		}
 		return temp;
 	}
