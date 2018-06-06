@@ -1,18 +1,22 @@
 package src.cardGame;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This class represents a deck that contains 52 <code>Card</code> objects.
  *
  * @author Joshua Ciffer
- * @version 06/05/2018
+ * @version 06/06/2018
  */
 public final class Deck {
 
 	public static void main(String[] args) {
 		Deck deck = new Deck();
 		deck.create();
+		System.out.println(deck.toString());
+		System.out.println("\n\n\n\n\n\n");
+		deck.shuffle();
 		System.out.println(deck.toString());
 	}
 
@@ -48,19 +52,27 @@ public final class Deck {
 				}
 			}
 		}
-		shuffle();
 	}
 
 	/**
 	 * Shuffles the cards stored in the deck in a random order.
 	 */
-	public void shuffle() {}
+	public void shuffle() {
+		ArrayList<Card> shuffledDeck = new ArrayList<>();
+		Random random = new Random();
+		int index;
+		while (deck.size() > 0) {
+			index = random.nextInt(deck.size());
+			shuffledDeck.add(deck.remove(index));
+		}
+		deck = shuffledDeck;
+	}
 
 	/**
 	 * @return The next card from the top of the deck.
 	 */
 	public Card draw() {
-		return deck.get(0);
+		return deck.remove(0);
 	}
 
 	public String toString() {
