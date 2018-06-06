@@ -11,15 +11,6 @@ import java.util.Random;
  */
 public final class Deck {
 
-	public static void main(String[] args) {
-		Deck deck = new Deck();
-		deck.create();
-		System.out.println(deck.toString());
-		System.out.println("\n\n\n\n\n\n");
-		deck.shuffle();
-		System.out.println(deck.toString());
-	}
-
 	/**
 	 * Stores the 52 cards of the deck.
 	 */
@@ -75,6 +66,10 @@ public final class Deck {
 		return deck.remove(0);
 	}
 
+	/**
+	 * @return A string representation of this deck.
+	 */
+	@Override
 	public String toString() {
 		String temp = "";
 		for (Card card : deck) {
