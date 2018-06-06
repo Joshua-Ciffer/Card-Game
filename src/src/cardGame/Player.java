@@ -1,12 +1,48 @@
 package src.cardGame;
 
+import java.util.ArrayList;
 
 /**
- * 
+ * This class represents a single player of the card game.
  *
- * @author Joshua
- * @version 06/05/2018
+ * @author Joshua Ciffer
+ * @version 06/06/2018
  */
-public class Player {
+public final class Player {
+
+	/**
+	 * The cards the player has.
+	 */
+	private ArrayList<Card> hand;
+
+	/**
+	 * The player's name.
+	 */
+	private String name;
+
+	/**
+	 * Constructs a new <code>Player</code>.
+	 *
+	 * @param name
+	 *        The player's name.
+	 */
+	public Player(String name) {
+		hand = new ArrayList<>();
+		this.name = name;
+	}
+
+	/**
+	 * @return The player's hand.
+	 */
+	public ArrayList<Card> getHand() {
+		return hand;
+	}
+
+	/**
+	 * @return The player's name.
+	 */
+	public String getName() {
+		return name;
+	}
 
 }
