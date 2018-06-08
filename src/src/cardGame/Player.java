@@ -30,6 +30,10 @@ public final class Player {
 		hand = new ArrayList<>();
 		this.name = name;
 	}
+	
+	public Card draw() {
+		return hand.remove(0);
+	}
 
 	/**
 	 * @return The player's hand.
@@ -43,6 +47,15 @@ public final class Player {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	@Override
+	public String toString() {
+		String temp = name;
+		for (Card card : hand) {
+			temp += "\n" + card.toString();
+		}
+		return temp;
 	}
 
 }
