@@ -3,22 +3,22 @@ package src.cardGame;
 import java.util.ArrayList;
 
 /**
- * This class represents a single player of the card game.
+ * This class represents a single player of the card game. The player stores a hand of cards that gets added to and removed from.
  *
  * @author Joshua Ciffer
- * @version 06/06/2018
+ * @version 06/10/2018
  */
 public final class Player {
 
 	/**
-	 * The cards the player has.
+	 * The cards the player currently has.
 	 */
 	private ArrayList<Card> hand;
 
 	/**
 	 * The player's name.
 	 */
-	private String name;
+	private final String name;
 
 	/**
 	 * Constructs a new <code>Player</code>.
@@ -30,7 +30,10 @@ public final class Player {
 		hand = new ArrayList<>();
 		this.name = name;
 	}
-	
+
+	/**
+	 * @return The card from the top of the player's hand.
+	 */
 	public Card draw() {
 		return hand.remove(0);
 	}
@@ -48,7 +51,10 @@ public final class Player {
 	public String getName() {
 		return name;
 	}
-	
+
+	/**
+	 * @return A string representation of this player.
+	 */
 	@Override
 	public String toString() {
 		String temp = name;
