@@ -51,7 +51,8 @@ public final class Main {
 				numPlayers = userInput.nextInt();
 			} catch (InputMismatchException e) {	// Makes sure the program doesn't crash if the user doesn't enter an integer.
 				userInput.next();	// Clears the scanner, prevents a weird infinite loop bug.
-				System.out.println("Enter a number fuckwad.");
+				System.out.println("Enter a number fuckwad.\n");
+				userInput.nextLine();
 				continue;
 			}
 			players = new ArrayList<>();
@@ -104,12 +105,34 @@ public final class Main {
 	 *
 	 */
 	private static void play() {
+		ArrayList<Card> currentCards = new ArrayList<>();
+		int turn = 1;
 		while (!hasWinner()) {
-			for (int playerNum = 0; playerNum < players.size(); playerNum++) {
+			for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// Loops through for each player,
 				if (players.get(playerNum).getHand().size() == 0) {
-					System.out.println("\n" + players.get(playerNum).getName() + " lost!\n");
+					System.out.println("\n" + players.get(playerNum).getName() + " lost!\n");	// Removes them from the game if they are out of cards.
 					players.remove(playerNum);
 				}
+			}
+			if (hasWinner()) {
+				System.out.println("\n" + players.get(0).getName() + " won the game!\n");
+				break;
+			}
+			System.out.println("Turn #" + turn++);
+			for (int player = 0; player < players.size(); player++) {
+				currentCards.add(players.get(player).draw());
+				System.out.println(players.get(player).getName() + ": " + currentCards.get(player));
+				System.out.println(players.get(player).getHand());
+			}
+			int greatestCard = 0;
+			for (int card = 0; card < currentCards.size() - 1; card++) {
+				System.out.println("Here");
+				if (currentCards.get(card).getValue() > currentCards.get(card + 1).getValue()) {
+					greatestCard = card;
+				}
+			}
+			for (int card = 0; card < currentCards.size(); card++) {
+				players.get(greatestCard).getHand().add(currentCards.remove(card));
 			}
 			System.out.println();
 		}
@@ -121,12 +144,11 @@ public final class Main {
 	 * @return True, if a player has won the game, false if otherwise.
 	 */
 	private static boolean hasWinner() {
-		for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// Loops through one time for each player in the game.
-			if (players.get(playerNum).getHand().size() == 52) {	// If one player has all the cards,
-				return true;										// then they won the game.
-			}
+		if (players.size() == 1) {	// If there is one player left in the game, they win. Duh.
+			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	/**
