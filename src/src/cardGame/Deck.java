@@ -16,10 +16,17 @@ public final class Deck {
 	private ArrayList<Card> deck;
 
 	/**
+	 * Constructs a new <code>Deck</code> object. The deck array list is initialized upon object construction.
+	 */
+	public Deck() {
+		deck = new ArrayList<>();
+	}
+
+	/**
 	 * Fills the deck with the 52 cards in a random order.
 	 */
 	public void create() {
-		deck = new ArrayList<>();	// Initializes the deck instance variable.
+		deck.clear();	// Clears any cards that are currently in the deck.
 		for (int suit = 0; suit <= 3; suit++) {		// Loop runs from 0 to 3 (runs 4 times), generates all 13 cards for each suit.
 			for (int value = 1; value <= 13; value++) {		// This loop runs 1 to 13 (runs 13 times), determines the value of each card.
 				switch (suit) {
