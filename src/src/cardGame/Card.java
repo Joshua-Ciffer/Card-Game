@@ -68,7 +68,7 @@ public final class Card {
 	 */
 	@Override
 	public String toString() {
-		return faceValue + " of " + suit + ".";
+		return faceValue + " of " + suit;
 	}
 
 }
