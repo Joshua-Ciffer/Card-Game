@@ -35,7 +35,13 @@ public final class Player {
 	 * @return The card from the top of the player's hand.
 	 */
 	public Card draw() {
-		return hand.remove(0);
+		Card temp;
+		try {
+			temp = hand.remove(0);
+			return temp;
+		} catch (NullPointerException e) {	// If there is no cards in the player's hand, return null.
+			return null;
+		}
 	}
 
 	/**

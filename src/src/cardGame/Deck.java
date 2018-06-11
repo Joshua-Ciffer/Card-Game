@@ -68,7 +68,13 @@ public final class Deck {
 	 * @return The next card from the top of the deck.
 	 */
 	public Card draw() {
-		return deck.remove(0);	// Removes whatever card is at the top of the deck.
+		Card temp;
+		try {
+			temp = deck.remove(0);
+			return temp;
+		} catch (NullPointerException e) {	// If there is no cards in the player's hand, return null.
+			return null;
+		}
 	}
 
 	/**
