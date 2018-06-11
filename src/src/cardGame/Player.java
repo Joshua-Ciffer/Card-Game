@@ -35,11 +35,9 @@ public final class Player {
 	 * @return The card from the top of the player's hand.
 	 */
 	public Card draw() {
-		Card temp;
-		try {
-			temp = hand.remove(0);
-			return temp;
-		} catch (NullPointerException e) {	// If there is no cards in the player's hand, return null.
+		if (hand.size() > 0) {	// If there are still cards left in the player's hand,
+			return hand.remove(0);	// Take the first card.
+		} else {
 			return null;
 		}
 	}
