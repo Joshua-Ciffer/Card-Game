@@ -20,6 +20,8 @@ public final class Deck {
 	 */
 	public Deck() {
 		deck = new ArrayList<>();
+		create();
+		shuffle();
 	}
 
 	/**
