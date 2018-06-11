@@ -4,7 +4,7 @@ package src.cardGame;
  * This class represents a single playing card with its face value, value, and suit.
  *
  * @author Joshua Ciffer
- * @version 06/05/2018
+ * @version 06/10/2018
  */
 public final class Card {
 
@@ -39,7 +39,7 @@ public final class Card {
 	public Card(int value, String suit) {
 		this.value = value;
 		this.suit = suit;
-		this.faceValue = faceValues[value - 1];
+		this.faceValue = faceValues[value - 1];		// Determines the face value based off of what the numerical value of the card is.
 	}
 
 	/**
