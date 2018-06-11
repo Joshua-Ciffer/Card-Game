@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * This class represents a deck that contains 52 <code>Card</code> objects.
  *
  * @author Joshua Ciffer
- * @version 06/06/2018
+ * @version 06/10/2018
  */
 public final class Deck {
 
@@ -19,9 +19,9 @@ public final class Deck {
 	 * Fills the deck with the 52 cards in a random order.
 	 */
 	public void create() {
-		deck = new ArrayList<>();
-		for (int suit = 0; suit <= 3; suit++) {
-			for (int value = 1; value <= 13; value++) {
+		deck = new ArrayList<>();	// Initializes the deck instance variable.
+		for (int suit = 0; suit <= 3; suit++) {		// Loop runs from 0 to 3 (runs 4 times), generates all 13 cards for each suit.
+			for (int value = 1; value <= 13; value++) {		// This loop runs 1 to 13 (runs 13 times), determines the value of each card.
 				switch (suit) {
 					case 0: {	// Hearts.
 						deck.add(new Card(value, "Hearts"));
@@ -48,20 +48,20 @@ public final class Deck {
 	 * Shuffles the cards stored in the deck in a random order.
 	 */
 	public void shuffle() {
-		ArrayList<Card> shuffledDeck = new ArrayList<>();
+		ArrayList<Card> shuffledDeck = new ArrayList<>();	// Creates a new deck.
 		int index;
-		while (deck.size() > 0) {
-			index = (int)(Math.random() * deck.size());
-			shuffledDeck.add(deck.remove(index));
+		while (deck.size() > 0) {	// While there are still cards left in the un-shuffled deck,
+			index = (int)(Math.random() * deck.size());		// Picks a random card from the un-shuffled deck.
+			shuffledDeck.add(deck.remove(index));	// Takes the random card out from the un-shuffled deck and places it in the shuffled deck.
 		}
-		deck = shuffledDeck;
+		deck = shuffledDeck;	// Saves the shuffled deck to the deck instance variable. Old deck goes bye bye.
 	}
 
 	/**
 	 * @return The next card from the top of the deck.
 	 */
 	public Card draw() {
-		return deck.remove(0);
+		return deck.remove(0);	// Removes whatever card is at the top of the deck.
 	}
 
 	/**
