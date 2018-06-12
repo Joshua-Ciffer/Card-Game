@@ -59,7 +59,7 @@ public final class Main {
 			userInput.nextLine();	// Clears the scanner because it previously accepted a number and now needs to accept a string.
 			for (int i = 0; i < numPlayers; i++) {	// Runs for however many players are in the game.
 				System.out.print("Enter player #" + (i + 1) + "'s name: ");
-				players.add(new Player(userInput.nextLine()));	// Asks for each players name and adds them to the game.
+				players.add(new Player(i, userInput.nextLine()));	// Asks for each players name and adds them to the game.
 			}
 			System.out.print("\n");
 			deal();
@@ -109,6 +109,7 @@ public final class Main {
 	 */
 	private static void play() {
 		ArrayList<Card> currentCards = new ArrayList<>();
+		ArrayList<Player> playersAtWar = new ArrayList<>();
 		int turn = 1;
 		while (!hasWinner()) {
 			for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// Loops through for each player,
@@ -132,8 +133,11 @@ public final class Main {
 				System.out.println("Here");
 				if (currentCards.get(card).getValue() > currentCards.get(greatestCard).getValue()) {
 					greatestCard = card;
+				} else if (currentCards.get(card).getValue() == currentCards.get(greatestCard).getValue()) {
+					playersAtWar.add(players.get(card));
 				}
 			}
+			war(playersAtWar);
 			System.out.println("\n" + players.get(greatestCard).getName() + " won the round.\n");
 			players.get(greatestCard).getHand().addAll(currentCards);
 			currentCards.clear();
@@ -142,10 +146,13 @@ public final class Main {
 	}
 
 	/**
-	 *
+	 * @param playersAtWar
+	 *        The list of players involved with the war.
 	 */
-	private static void war() {
+	private static void war(ArrayList<Player> playersAtWar) {
+		if (playersAtWar.size() > 0) {
 
+		}
 	}
 
 	/**

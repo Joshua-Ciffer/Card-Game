@@ -16,18 +16,26 @@ public final class Player {
 	private ArrayList<Card> hand;
 
 	/**
+	 * The number of the player in the game. Used to keep track of what cards belong to who and such.
+	 */
+	private final int number;
+
+	/**
 	 * The player's name.
 	 */
 	private final String name;
 
 	/**
 	 * Constructs a new <code>Player</code>.
-	 *
+	 * 
+	 * @param number
+	 *        The number of the player in the game.
 	 * @param name
 	 *        The player's name.
 	 */
-	public Player(String name) {
+	public Player(int number, String name) {
 		hand = new ArrayList<>();
+		this.number = number;
 		this.name = name;
 	}
 
@@ -47,6 +55,13 @@ public final class Player {
 	 */
 	public ArrayList<Card> getHand() {
 		return hand;
+	}
+
+	/**
+	 * @return The number of this player.
+	 */
+	public int getNumber() {
+		return number;
 	}
 
 	/**
