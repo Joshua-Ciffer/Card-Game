@@ -137,7 +137,7 @@ public final class Main {
 				System.out.println("Here");
 				if (currentCards.get(card).getValue() > currentCards.get(greatestCard).getValue()) {
 					greatestCard = card;
-				} else if (currentCards.get(card).getValue() == currentCards.get(greatestCard).getValue()) {
+				} else if (currentCards.get(card).getValue() == currentCards.get(greatestCard).getValue()) {	// TODO: Fix algorithm, i think its added players to war unintentionally
 					playersAtWar.add(players.get(card));
 				}
 			}
@@ -155,9 +155,10 @@ public final class Main {
 	 *        The list of players involved with the war.
 	 */
 	private static void war(ArrayList<Player> playersAtWar) {
-		ArrayList<Card> faceDownCards = new ArrayList<>();
-		ArrayList<Card> faceUpCards = new ArrayList<>();
 		if (playersAtWar.size() > 0) {
+			System.out.println("WAR");
+			ArrayList<Card> faceDownCards = new ArrayList<>();
+			ArrayList<Card> faceUpCards = new ArrayList<>();
 			for (Player player : playersAtWar) {
 				for (int card = 0; ((card < 3) || (card < player.getHand().size() - 1)); card++) {
 					faceDownCards.add(player.draw());
@@ -170,10 +171,16 @@ public final class Main {
 			for (int card = 1; card < faceUpCards.size(); card++) {
 				if (faceUpCards.get(card).getValue() > faceUpCards.get(greatestCard).getValue()) {
 					greatestCard = card;
-				} else if (faceUpCards.get(card).getValue() == faceUpCards.get(greatestCard).getValue()) {
-					playersAtWar.add(players.get(card));
 				}
+				// else if (faceUpCards.get(card).getValue() == faceUpCards.get(greatestCard).getValue()) {
+				// playersAtWar.add(players.get(card));
+				// }
 			}
+			// war()
+			playersAtWar.get(greatestCard).getHand().addAll(faceDownCards);
+			playersAtWar.get(greatestCard).getHand().addAll(faceUpCards);
+			faceDownCards.clear();
+			faceUpCards.clear();
 		}
 	}
 
