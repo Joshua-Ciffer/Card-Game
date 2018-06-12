@@ -61,10 +61,8 @@ public final class Main {
 				System.out.print("Enter player #" + (i + 1) + "'s name: ");
 				players.add(new Player(userInput.nextLine()));	// Asks for each players name and adds them to the game.
 			}
+			System.out.print("\n");
 			deal();
-			for (Player player : players) {		// DEBUG USE, REMOVE FROM THE FINAL GAME.
-				System.out.println(player.toString() + "\n\n\n\n");
-			}
 			play();
 			while (true) {
 				System.out.print("Keep playing? Yes or No: ");
@@ -91,9 +89,8 @@ public final class Main {
 	 */
 	private static void deal() {
 		deck = new Deck();
-		deck.create();
-		deck.shuffle();
 		for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// This loop runs one time for each player in the game.
+			deck.shuffle();
 			for (int card = 0; card < (52 / players.size()); card++) {	// This loop divides the deck up evenly among all of the players in the game.
 				players.get(playerNum).getHand().add(deck.draw());	// Takes a card from the deck and places it in the player's deck.
 			}
@@ -101,8 +98,14 @@ public final class Main {
 	}
 
 	/**
-	 *
-	 *
+	 * Runs the game turn by turn until a player wins.
+	 * 
+	 * The turn loop first checks if a player has won the game, if not, it checks to see what players are still in the game. A player is removed
+	 * from the game if they run out of cards. A player wins the game if they are the only player left. Otherwise, a single card is drawn from each
+	 * player's hand. Whoever's card has the highest value, that player wins all of the cards that were drawn. They are added to their hand. The turn
+	 * then ends. If however, two or more players draw a card of the same value, there is a war. In the case of a war, the players involved draw three
+	 * more cards and then one more card to compare against the other players. The player in the war with the highest value of their final card drawn
+	 * wins all of the cards involved.
 	 */
 	private static void play() {
 		ArrayList<Card> currentCards = new ArrayList<>();
@@ -119,23 +122,30 @@ public final class Main {
 				break;
 			}
 			System.out.println("Turn #" + turn++);
-			for (int player = 0; player < players.size(); player++) {
-				currentCards.add(players.get(player).draw());
-				System.out.println(players.get(player).getName() + ": " + currentCards.get(player));
-				System.out.println(players.get(player).getHand());
+			for (int playerNum = 0; playerNum < players.size(); playerNum++) {
+				currentCards.add(players.get(playerNum).draw());
+				System.out.println(players.get(playerNum).getName() + ": " + currentCards.get(playerNum));
+				System.out.println(players.get(playerNum).getHand());
 			}
 			int greatestCard = 0;
-			for (int card = 0; card < currentCards.size() - 1; card++) {
+			for (int card = 1; card < currentCards.size(); card++) {
 				System.out.println("Here");
-				if (currentCards.get(card).getValue() > currentCards.get(card + 1).getValue()) {
+				if (currentCards.get(card).getValue() > currentCards.get(greatestCard).getValue()) {
 					greatestCard = card;
 				}
 			}
-			for (int card = 0; card < currentCards.size(); card++) {
-				players.get(greatestCard).getHand().add(currentCards.remove(card));
-			}
+			System.out.println("\n" + players.get(greatestCard).getName() + " won the round.\n");
+			players.get(greatestCard).getHand().addAll(currentCards);
+			currentCards.clear();
 			System.out.println();
 		}
+	}
+
+	/**
+	 *
+	 */
+	private static void war() {
+
 	}
 
 	/**
