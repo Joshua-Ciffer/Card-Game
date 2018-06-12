@@ -112,22 +112,26 @@ public final class Main {
 		ArrayList<Player> playersAtWar = new ArrayList<>();
 		int turn = 1;
 		while (!hasWinner()) {
+			
 			for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// Loops through for each player,
 				if (players.get(playerNum).getHand().size() == 0) {
 					System.out.println("\n" + players.get(playerNum).getName() + " lost!\n");	// Removes them from the game if they are out of cards.
 					players.remove(playerNum);
 				}
 			}
+			
 			if (hasWinner()) {
 				System.out.println("\n" + players.get(0).getName() + " won the game!\n");
 				break;
 			}
+			
 			System.out.println("Turn #" + turn++);
 			for (int playerNum = 0; playerNum < players.size(); playerNum++) {
 				currentCards.add(players.get(playerNum).draw());
 				System.out.println(players.get(playerNum).getName() + ": " + currentCards.get(playerNum));
 				System.out.println(players.get(playerNum).getHand());
 			}
+			
 			int greatestCard = 0;
 			for (int card = 1; card < currentCards.size(); card++) {
 				System.out.println("Here");
@@ -138,6 +142,7 @@ public final class Main {
 				}
 			}
 			war(playersAtWar);
+			
 			System.out.println("\n" + players.get(greatestCard).getName() + " won the round.\n");
 			players.get(greatestCard).getHand().addAll(currentCards);
 			currentCards.clear();
