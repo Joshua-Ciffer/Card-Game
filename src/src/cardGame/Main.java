@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
  * The main entry point of the program. Contains the actual game logic and menus.
  *
  * @author Joshua Ciffer
- * @version 06/11/2018
+ * @version 06/14/2018
  */
 public final class Main {
 
@@ -59,7 +59,7 @@ public final class Main {
 			userInput.nextLine();	// Clears the scanner because it previously accepted a number and now needs to accept a string.
 			for (int i = 0; i < numPlayers; i++) {	// Runs for however many players are in the game.
 				System.out.print("Enter player #" + (i + 1) + "'s name: ");
-				players.add(new Player(i, userInput.nextLine()));	// Asks for each players name and adds them to the game.
+				players.add(new Player(userInput.nextLine()));	// Asks for each players name and adds them to the game.
 			}
 			System.out.print("\n");
 			deal();
@@ -137,7 +137,8 @@ public final class Main {
 				System.out.println("Here");
 				if (currentCards.get(card).getValue() > currentCards.get(greatestCard).getValue()) {
 					greatestCard = card;
-				} else if (currentCards.get(card).getValue() == currentCards.get(greatestCard).getValue()) {	// TODO: Fix algorithm, i think its added players to war unintentionally
+				} else if (currentCards.get(card).getValue() == currentCards.get(greatestCard).getValue()) {	// TODO: Fix algorithm, i think its added players to war
+																												// unintentionally
 					playersAtWar.add(players.get(card));
 				}
 			}
