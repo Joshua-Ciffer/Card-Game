@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
  * The main entry point of the program. Contains the actual game logic and menus.
  *
  * @author Joshua Ciffer
- * @version 06/14/2018
+ * @version 06/15/2018
  */
 public final class Main {
 
@@ -49,6 +49,14 @@ public final class Main {
 			System.out.print("Main Menu\nHow many players do you want to have?: ");
 			try {
 				numPlayers = userInput.nextInt();
+				if (numPlayers <= 1) {
+					System.out.println("\nThere must be at least two players.\n");
+					continue;
+				}
+				if (numPlayers > 52) {
+					System.out.println("\nThere can't be more than fifty-two players.\n");
+					continue;
+				}
 			} catch (InputMismatchException e) {	// Makes sure the program doesn't crash if the user doesn't enter an integer.
 				userInput.next();	// Clears the scanner, prevents a weird infinite loop bug.
 				System.out.println("Enter a number fuckwad.\n");
@@ -68,6 +76,8 @@ public final class Main {
 				System.out.print("Keep playing? Yes or No: ");
 				switch (userInput.nextLine().toLowerCase()) {
 					case "yes": {
+						System.out.println();
+						players.clear();
 						break;
 					}
 					case "no": {
@@ -112,76 +122,86 @@ public final class Main {
 		ArrayList<Player> playersAtWar = new ArrayList<>();
 		int turn = 1;
 		while (!hasWinner()) {
-
 			for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// Loops through for each player,
 				if (players.get(playerNum).getHand().size() == 0) {
 					System.out.println("\n" + players.get(playerNum).getName() + " lost!\n");	// Removes them from the game if they are out of cards.
 					players.remove(playerNum);
 				}
 			}
-
 			if (hasWinner()) {
 				System.out.println("\n" + players.get(0).getName() + " won the game!\n");
 				break;
 			}
-
 			System.out.println("Turn #" + turn++);
-			for (int playerNum = 0; playerNum < players.size(); playerNum++) {
+			for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// Draws a card from each player and displays the turn to the user.
 				currentCards.add(players.get(playerNum).draw());
-				System.out.println(players.get(playerNum).getName() + ": " + currentCards.get(playerNum));
-				System.out.println(players.get(playerNum).getHand());
+				System.out.println(players.get(playerNum).getName() + " (" + players.get(playerNum).getHand().size() + ")" + ": " + currentCards.get(playerNum));
 			}
-
 			int greatestCard = 0;
-			for (int card = 1; card < currentCards.size(); card++) {
-				System.out.println("Here");
+			for (int card = 1; card < currentCards.size(); card++) {	// Determines which player won the round.
 				if (currentCards.get(card).getValue() > currentCards.get(greatestCard).getValue()) {
 					greatestCard = card;
-				} else if (currentCards.get(card).getValue() == currentCards.get(greatestCard).getValue()) {	// TODO: Fix algorithm, i think its added players to war
-																												// unintentionally
+				} else if (currentCards.get(card).getValue() == currentCards.get(greatestCard).getValue()) {
+					if (!playersAtWar.contains(players.get(greatestCard))) {
+						playersAtWar.add(players.get(greatestCard));
+					}
 					playersAtWar.add(players.get(card));
 				}
 			}
-			war(playersAtWar);
-
-			System.out.println("\n" + players.get(greatestCard).getName() + " won the round.\n");
-			players.get(greatestCard).getHand().addAll(currentCards);
+			if (!war(playersAtWar, currentCards)) {
+				System.out.println("\n" + players.get(greatestCard).getName() + " won the round.\n");
+				players.get(greatestCard).getHand().addAll(currentCards);
+			}
 			currentCards.clear();
 			System.out.println();
 		}
 	}
 
 	/**
+	 * Plays a war between any number of players. The players draw 3 cards that go face down, and then 1 card that goes face up. The player with the highest
+	 * face up card wins all of the cards from the turn.
+	 * 
 	 * @param playersAtWar
 	 *        The list of players involved with the war.
+	 * @param currentCards
+	 *        The current cards that were placed down in the turn.
+	 * @return True if a war took place, false otherwise.
 	 */
-	private static void war(ArrayList<Player> playersAtWar) {
+	private static boolean war(ArrayList<Player> playersAtWar, ArrayList<Card> currentCards) {
 		if (playersAtWar.size() > 0) {
-			System.out.println("WAR");
-			ArrayList<Card> faceDownCards = new ArrayList<>();
-			ArrayList<Card> faceUpCards = new ArrayList<>();
-			for (Player player : playersAtWar) {
-				for (int card = 0; ((card < 3) || (card < player.getHand().size() - 1)); card++) {
-					faceDownCards.add(player.draw());
+			if (!anyPlayersDeckSizeIsZero(playersAtWar)) {
+				System.out.println("\nWAR");
+				ArrayList<Card> faceDownCards = new ArrayList<>();
+				ArrayList<Card> faceUpCards = new ArrayList<>();
+				for (Player player : playersAtWar) {	// Draws the face down cards from each player.
+					for (int card = 0; ((card < 3) && (card < player.getHand().size() - 1)); card++) {	// Draws 3 from each player, unless they don't have enough.
+						faceDownCards.add(player.draw());
+					}
 				}
-			}
-			for (Player player : playersAtWar) {
-				faceUpCards.add(player.draw());
-			}
-			int greatestCard = 0;
-			for (int card = 1; card < faceUpCards.size(); card++) {
-				if (faceUpCards.get(card).getValue() > faceUpCards.get(greatestCard).getValue()) {
-					greatestCard = card;
+				for (int player = 0; player < playersAtWar.size(); player++) {	// Draws 1 face up card from each player.
+					faceUpCards.add(playersAtWar.get(player).draw());
+					System.out.println(playersAtWar.get(player).getName() + ": " + faceUpCards.get(player));
 				}
-				// else if (faceUpCards.get(card).getValue() == faceUpCards.get(greatestCard).getValue()) {
-				// playersAtWar.add(players.get(card));
-				// }
+				int greatestCard = 0;
+				for (int card = 1; card < faceUpCards.size(); card++) {	// Determines the player with the highest face up card.
+					if (faceUpCards.get(card).getValue() > faceUpCards.get(greatestCard).getValue()) {
+						greatestCard = card;
+					}
+				}
+				System.out.println("\n" + playersAtWar.get(greatestCard).getName() + " won the war.\n");
+				playersAtWar.get(greatestCard).getHand().addAll(faceDownCards);
+				playersAtWar.get(greatestCard).getHand().addAll(faceUpCards);
+				playersAtWar.get(greatestCard).getHand().addAll(currentCards);
+				faceDownCards.clear();
+				faceUpCards.clear();
+				currentCards.clear();
+				playersAtWar.clear();
+				return true;
+			} else {
+				return false;
 			}
-			// war()
-			playersAtWar.get(greatestCard).getHand().addAll(faceDownCards);
-			playersAtWar.get(greatestCard).getHand().addAll(faceUpCards);
-			faceDownCards.clear();
-			faceUpCards.clear();
+		} else {
+			return false;
 		}
 	}
 
@@ -196,6 +216,20 @@ public final class Main {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * @param playersAtWar
+	 *        The list of players currently in the war.
+	 * @return True if any of the players in the war ran out of cards.
+	 */
+	private static boolean anyPlayersDeckSizeIsZero(ArrayList<Player> playersAtWar) {
+		for (Player player : playersAtWar) {
+			if (player.getHand().size() == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
