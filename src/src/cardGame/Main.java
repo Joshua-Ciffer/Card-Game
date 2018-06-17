@@ -125,7 +125,7 @@ public final class Main {
 			for (int playerNum = 0; playerNum < players.size(); playerNum++) {	// Loops through for each player,
 				if (players.get(playerNum).getHand().size() == 0) {
 					System.out.println("\n" + players.get(playerNum).getName() + " lost!\n");	// Removes them from the game if they are out of cards.
-					players.remove(playerNum);
+					players.remove(playerNum--);
 				}
 			}
 			if (hasWinner()) {
